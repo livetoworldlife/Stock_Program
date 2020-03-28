@@ -192,6 +192,7 @@ class Ui_MainWindow_3k(object):
         self.label_5.setAlignment(QtCore.Qt.AlignCenter)
         self.label_5.setObjectName("label_5")
         self.horizontalLayout.addWidget(self.label_5)
+
         self.textBrowser = QtWidgets.QTextBrowser(self.horizontalFrame)
         self.textBrowser.setMaximumSize(QtCore.QSize(80, 80))
         font = QtGui.QFont()
@@ -201,6 +202,7 @@ class Ui_MainWindow_3k(object):
         self.textBrowser.setFont(font)
         self.textBrowser.setObjectName("textBrowser")
         self.horizontalLayout.addWidget(self.textBrowser)
+
         self.label_6 = QtWidgets.QLabel(self.horizontalFrame)
         self.label_6.setMaximumSize(QtCore.QSize(80, 80))
         font = QtGui.QFont()
@@ -215,6 +217,12 @@ class Ui_MainWindow_3k(object):
         self.lineEdit_5 = QtWidgets.QLineEdit(self.horizontalFrame)
         self.lineEdit_5.setMinimumSize(QtCore.QSize(80, 69))
         self.lineEdit_5.setMaximumSize(QtCore.QSize(80, 80))
+        font = QtGui.QFont()
+        font.setPointSize(36)
+        font.setBold(True)
+        font.setItalic(True)
+        font.setWeight(75)
+        self.lineEdit_5.setFont(font)
         self.lineEdit_5.setObjectName("lineEdit_5")
         self.horizontalLayout.addWidget(self.lineEdit_5)
         self.label_7 = QtWidgets.QLabel(self.horizontalFrame)
@@ -311,6 +319,7 @@ class Ui_MainWindow_3k(object):
         self.pushButton_4.clicked.connect(self.Cbuy)  # al
         self.pushButton_5.clicked.connect(self.CPayment)  # odeme
         self.pushButton_2.clicked.connect(self.CClean)  # temizle
+        self.pushButton_6.clicked.connect(self.CCash)  # paraystu hesapla fis
 
     def Query(self):
         self.baglanti = sqlite3.connect('stock_database.db')
@@ -318,20 +327,20 @@ class Ui_MainWindow_3k(object):
 
         barkod = self.lineEdit.text()
 
-        self.cur.execute("""SELECT 'clean' AS tablo,price,kind 
-        FROM clean 
+        self.cur.execute("""SELECT 'clean' AS tablo,price,kind
+        FROM clean
         WHERE code=?
         UNION ALL
         SELECT 'fruit' AS tablo,price,kind
-        FROM fruit 
+        FROM fruit
         WHERE code=?
         UNION ALL
         SELECT 'meat' AS tablo,price,kind
-        FROM meat 
+        FROM meat
         WHERE code=?
         UNION ALL
         SELECT 'legumes' AS tablo,price,kind
-        FROM legumes 
+        FROM legumes
         WHERE code=?""", (int(barkod), int(barkod), int(barkod), int(barkod)))
         data = self.cur.fetchall()
         if len(data) == 0:
@@ -379,6 +388,7 @@ class Ui_MainWindow_3k(object):
             payment += pay
         print(payment)
         self.textBrowser.setText(str(payment))
+        # self.CCash(payment)
 
     def CClean(self):
         while self.tableWidget.rowCount() > 0:
@@ -413,20 +423,20 @@ class Ui_MainWindow_3k(object):
         for i in data:
             kind = i[0]
 
-            self.cur_c.execute("""SELECT 'clean' AS tablo,code,piece 
-                                FROM clean 
+            self.cur_c.execute("""SELECT 'clean' AS tablo,code,piece
+                                FROM clean
                                 WHERE kind=?
                                 UNION ALL
-                                SELECT 'fruit' AS tablo,code,piece 
-                                FROM fruit 
+                                SELECT 'fruit' AS tablo,code,piece
+                                FROM fruit
                                 WHERE kind=?
                                 UNION ALL
-                                SELECT 'meat' AS tablo,code,piece 
-                                FROM meat 
+                                SELECT 'meat' AS tablo,code,piece
+                                FROM meat
                                 WHERE kind=?
                                 UNION ALL
                                 SELECT 'legumes' AS tablo,code,piece
-                                FROM legumes 
+                                FROM legumes
                                 WHERE kind=?""", (kind, kind, kind, kind))
             data_ = self.cur_c.fetchall()
             print(data_)
@@ -449,6 +459,14 @@ class Ui_MainWindow_3k(object):
                 self.baglanti_c.commit()
 
         self.statusbar.showMessage("updated the stock successfully")
+
+    def CCash(self):
+        payment = self.textBrowser.toPlainText()
+        given = self.lineEdit_5.text()
+
+        change = int(given) - int(payment)
+        self.textBrowser_2.setText(str(change))
+        self.statusbar.showMessage("exchange was given to costomer")
 
 
 if __name__ == "__main__":
