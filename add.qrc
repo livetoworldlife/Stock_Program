@@ -1,0 +1,17 @@
+<RCC>
+  <qresource prefix="add">
+    <file>icons/ekle.png</file>
+  </qresource>
+  <qresource prefix="refresh">
+    <file>icons/Refresh.png</file>
+  </qresource>
+  <qresource prefix="delete">
+    <file>icons/delete.png</file>
+  </qresource>
+  <qresource prefix="save">
+    <file>icons/Save-icon.png</file>
+  </qresource>
+  <qresource prefix="seacrh">
+    <file>icons/research.png</file>
+  </qresource>
+</RCC>

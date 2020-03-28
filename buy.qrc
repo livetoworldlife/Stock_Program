@@ -1,0 +1,16 @@
+<RCC>
+  <qresource prefix="sorgu">
+    <file>icons/barkod.png</file>
+  </qresource>
+  <qresource prefix="ekle">
+    <file>icons/shop.png</file>
+    <file>icons/ekle copy.png</file>
+  </qresource>
+  <qresource prefix="buy">
+    <file>icons/receipt,png.png</file>
+    <file>icons/odeme.png</file>
+  </qresource>
+  <qresource prefix="temiz">
+    <file>icons/clean.png</file>
+  </qresource>
+</RCC>
